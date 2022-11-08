@@ -4,7 +4,7 @@ import { useState } from 'react';
 function App(props) {
   const [newNote, setNewNote] = useState('');
   const [notesRepo, setNotesRepo] = useState(props.notes);
-  const [display, displayAll] = useState(false);
+  const [display, displayAll] = useState(true);
 
   const handleNoteChange = (event) => {
     setNewNote(event.target.value);
@@ -39,7 +39,10 @@ function App(props) {
           <Notes key={note.id} note={note.content} />
         ))}
       </ul>
-
+      <label>
+        <input type="checkbox" onClick={() => displayAll(!display)} />
+        Show Important Notes
+      </label>
       <form onSubmit={addNote}>
         <input
           value={newNote}
