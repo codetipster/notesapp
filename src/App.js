@@ -4,10 +4,16 @@ import { useState } from 'react';
 function App(props) {
   const [newNote, setNewNote] = useState('');
   const [notesRepo, setNotesRepo] = useState(props.notes);
+  const [display, displayAll] = useState(false);
 
   const handleNoteChange = (event) => {
     setNewNote(event.target.value);
   };
+
+  //Toggle functionality for notes display
+  const notesToShow = display
+    ? notesRepo
+    : notesRepo.filter((note) => note.important === true);
 
   const addNote = (event) => {
     event.preventDefault();
@@ -29,13 +35,13 @@ function App(props) {
         <i>Making note taking easy and accessible...</i>
       </p>
       <ul>
-        {props.notes.map((note) => (
+        {notesToShow.map((note) => (
           <Notes key={note.id} note={note.content} />
         ))}
       </ul>
 
       <form onSubmit={addNote}>
-        <textarea
+        <input
           value={newNote}
           onChange={handleNoteChange}
           placeholder="Enter new note"
