@@ -1,10 +1,18 @@
 import Notes from './components/Notes';
 import Button from './components/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 function App(props) {
   const [newNote, setNewNote] = useState('');
-  const [notesRepo, setNotesRepo] = useState(props.notes);
+  const [notesRepo, setNotesRepo] = useState([]);
   const [display, displayAll] = useState(true);
+
+  //Fetching data from the server
+  useEffect(() => {
+    axios.get(' http://localhost:3001/notes').then((response) => {
+      setNotesRepo(response.data);
+    });
+  }, []);
 
   const handleNoteChange = (event) => {
     setNewNote(event.target.value);
