@@ -27,13 +27,14 @@ function App(props) {
     event.preventDefault();
     const newObject = {
       content: newNote,
-      id: props.notes.length + 1,
-      date: new Date().toISOString(),
+      date: new Date(),
       important: Math.random() < 0.5,
     };
-    setNotesRepo(notesRepo.concat(newObject));
-    setNewNote('');
-    console.log('form submitted successfully', notesRepo);
+
+    axios.post(' http://localhost:3001/notes', newObject).then((response) => {
+      setNotesRepo(notesRepo.concat(response.data));
+      setNewNote('');
+    });
   };
 
   return (
