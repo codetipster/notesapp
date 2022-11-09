@@ -37,6 +37,20 @@ function App(props) {
     });
   };
 
+  //Alter data on server
+  const toggleImportance = (id) => {
+    const url = `http://localhost:3001/notes/${id}`;
+    //find the particular note we want to modify
+    const note = notesRepo.find((n) => n.id === id);
+    //make your change
+    const changedNote = { ...note, important: !note.important };
+
+    axios.put(url, changedNote).then((response) => {
+      //reset the notes status in server
+      setNotesRepo(notesRepo.map((n) => (n.id !== id ? n : response.data)));
+    });
+  };
+
   return (
     <div className="App">
       <h1>Notes Application</h1>
@@ -45,7 +59,13 @@ function App(props) {
       </p>
       <ul>
         {notesToShow.map((note) => (
-          <Notes key={note.id} note={note.content} />
+          <Notes
+            key={note.id}
+            note={note.content}
+            toggleImportance={() => {
+              toggleImportance(note.id);
+            }}
+          />
         ))}
       </ul>
       <label>
