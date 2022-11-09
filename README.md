@@ -72,3 +72,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ### JSON Server installation
 
 npx json-server --port 3001 --watch db.json
+
+### Axios installation
+
+npm install axios
