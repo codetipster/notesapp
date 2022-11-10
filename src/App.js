@@ -46,10 +46,17 @@ function App() {
     //make your change
     const changedNote = { ...note, important: !note.important };
 
-    noteServices.update(changedNote).then((returnedNote) => {
-      //reset the notes status in server
-      setNotesRepo(notesRepo.map((n) => (n.id !== id ? n : returnedNote)));
-    });
+    noteServices
+      .update(changedNote)
+      .then((returnedNote) => {
+        //reset the notes status in server
+        setNotesRepo(notesRepo.map((n) => (n.id !== id ? n : returnedNote)));
+      })
+      //handling error
+      .catch((error) => {
+        alert(`the note '${note.content}' was already deleted from server`);
+        setNotes(notesRepo.filter((n) => n.id !== id));
+      });
   };
 
   return (
