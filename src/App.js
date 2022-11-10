@@ -47,7 +47,7 @@ function App() {
     const changedNote = { ...note, important: !note.important };
 
     noteServices
-      .update(changedNote)
+      .update(id, changedNote)
       .then((returnedNote) => {
         //reset the notes status in server
         setNotesRepo(notesRepo.map((n) => (n.id !== id ? n : returnedNote)));
