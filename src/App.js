@@ -1,15 +1,16 @@
 import Notes from './components/Notes';
 import Button from './components/Button';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-function App(props) {
+import noteServices from './services/notes';
+
+function App() {
   const [newNote, setNewNote] = useState('');
   const [notesRepo, setNotesRepo] = useState([]);
   const [display, displayAll] = useState(true);
 
   //Fetching data from the server
   useEffect(() => {
-    axios.get(' http://localhost:3001/notes').then((response) => {
+    noteServices.getAll().then((response) => {
       setNotesRepo(response.data);
     });
   }, []);
@@ -23,6 +24,7 @@ function App(props) {
     ? notesRepo
     : notesRepo.filter((note) => note.important === true);
 
+  //adding data to server
   const addNote = (event) => {
     event.preventDefault();
     const newObject = {
@@ -31,7 +33,7 @@ function App(props) {
       important: Math.random() < 0.5,
     };
 
-    axios.post(' http://localhost:3001/notes', newObject).then((response) => {
+    noteServices.create(newObject).then((response) => {
       setNotesRepo(notesRepo.concat(response.data));
       setNewNote('');
     });
@@ -39,13 +41,12 @@ function App(props) {
 
   //Alter data on server
   const toggleImportance = (id) => {
-    const url = `http://localhost:3001/notes/${id}`;
     //find the particular note we want to modify
     const note = notesRepo.find((n) => n.id === id);
     //make your change
     const changedNote = { ...note, important: !note.important };
 
-    axios.put(url, changedNote).then((response) => {
+    noteServices.update(changedNote).then((response) => {
       //reset the notes status in server
       setNotesRepo(notesRepo.map((n) => (n.id !== id ? n : response.data)));
     });
