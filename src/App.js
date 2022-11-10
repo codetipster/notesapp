@@ -10,8 +10,8 @@ function App() {
 
   //Fetching data from the server
   useEffect(() => {
-    noteServices.getAll().then((response) => {
-      setNotesRepo(response.data);
+    noteServices.getAll().then((initialNotes) => {
+      setNotesRepo(initialNotes);
     });
   }, []);
 
@@ -33,8 +33,8 @@ function App() {
       important: Math.random() < 0.5,
     };
 
-    noteServices.create(newObject).then((response) => {
-      setNotesRepo(notesRepo.concat(response.data));
+    noteServices.create(newObject).then((returnedNote) => {
+      setNotesRepo(notesRepo.concat(returnedNote));
       setNewNote('');
     });
   };
@@ -46,9 +46,9 @@ function App() {
     //make your change
     const changedNote = { ...note, important: !note.important };
 
-    noteServices.update(changedNote).then((response) => {
+    noteServices.update(changedNote).then((returnedNote) => {
       //reset the notes status in server
-      setNotesRepo(notesRepo.map((n) => (n.id !== id ? n : response.data)));
+      setNotesRepo(notesRepo.map((n) => (n.id !== id ? n : returnedNote)));
     });
   };
 
