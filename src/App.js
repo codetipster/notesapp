@@ -55,7 +55,7 @@ function App() {
       //handling error
       .catch((error) => {
         alert(`the note '${note.content}' was already deleted from server`);
-        setNewNote(notesRepo.filter((n) => n.id !== id));
+        setNotesRepo(notesRepo.filter((n) => n.id !== id));
       });
   };
 
