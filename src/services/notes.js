@@ -1,7 +1,7 @@
 import axios from 'axios';
 //const baseUrl = 'http://localhost:3001/api/notes';
-const baseUrl = 'https://lit-garden-32667.herokuapp.com/api/notes';
-
+//const baseUrl = 'https://lit-garden-32667.herokuapp.com/api/notes';
+const baseUrl = '/api/notes';
 //getting note from server
 
 //const getAll = () => {
